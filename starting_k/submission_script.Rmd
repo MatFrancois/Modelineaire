@@ -16,15 +16,15 @@ gs = colnames(d)[11:31]
 
 ### PUT YOUR SCRIPT HERE
 # Example 1
-pred = as.matrix(d[,gs])
-pred[] = sample(na.omit(pred), nrow(pred)*ncol(pred), replace=TRUE)
+# pred = as.matrix(d[,gs])
+# pred[] = sample(na.omit(pred), nrow(pred)*ncol(pred), replace=TRUE)
 
 # # Example 2
-# pred = sapply(gs, function(g, d){
-#  m = lm(d[[g]] ~ d$tissue)
-# #  m = lm(d[[g]] ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
-#  predict(m, d)
-# }, d)
+pred = sapply(gs, function(g, d){
+ m = lm(d[[g]] ~ d$tissue)
+ m = lm(d[[g]] ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
+ predict(m, d)
+}, d)
 
 ### DO NOT CHANGE THIS PART, it needs *pred* variable
 pred[!is.na(as.matrix(d[,gs]))] = NA # Sparse, only submit NA values!

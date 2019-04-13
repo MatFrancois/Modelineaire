@@ -11,7 +11,7 @@
 
 <meta name="author" content="Florent Chuffart &amp; Magali Richard" />
 
-<meta name="date" content="2019-04-10" />
+<meta name="date" content="2019-04-13" />
 
 <title>Gene Expression Prediction Challenge (expred)</title>
 
@@ -101,9 +101,6 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
-summary {
-  display: list-item;
-}
 </style>
 
 
@@ -111,74 +108,14 @@ summary {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -286,7 +223,7 @@ div.tocify {
 <h1 class="title toc-ignore">Gene Expression Prediction Challenge (expred)</h1>
 <h3 class="subtitle"><em>Starting kit</em></h3>
 <h4 class="author"><em>Florent Chuffart &amp; Magali Richard</em></h4>
-<h4 class="date"><em>2019-04-10</em></h4>
+<h4 class="date"><em>2019-04-13</em></h4>
 
 </div>
 
@@ -405,12 +342,13 @@ pred[!is.na(as.matrix(d[,gs]))] = NA # Sparse, only submit NA values!
 saveRDS(pred, &quot;results.rds&quot;)
 zip_filename = paste(sep=&quot;&quot;,  &quot;results_&quot;, format(Sys.time(), format=&quot;%m_%d_%Y_%s&quot;), &quot;.zip&quot;)
 zip(zip_filename, &quot;results.rds&quot;)
+#&gt; Warning in system2(zip, args, invisible = TRUE): '&quot;zip&quot;' not found
 print(zip_filename)
-#&gt; [1] &quot;results_04_10_2019_1554900184.zip&quot;</code></pre>
+#&gt; [1] &quot;results_04_13_2019_1555161930.zip&quot;</code></pre>
 </div>
 <div id="submit-zip-file" class="section level2">
 <h2>Submit zip file</h2>
-<p>It generates <em>results_04_10_2019_1554900184.zip</em> submission file.</p>
+<p>It generates <em>results_04_13_2019_1555161930.zip</em> submission file.</p>
 <p>Submit the zip submission file in the <code>Participate</code> tab of the codalab challenge by clicking the <code>Submit</code> button.</p>
 <p>The metric used to evaluate prediction is the mean squared error (MSE) coded with the provided <code>scoring_function()</code>.</p>
 <p>On the codalab challenge web page, The <em>STATUS</em> become :</p>
@@ -473,30 +411,25 @@ print(zip_filename)
 </div>
 <div id="session-information" class="section level1">
 <h1>Session Information</h1>
-<pre><code>#&gt; R version 3.4.4 (2018-03-15)
-#&gt; Platform: x86_64-pc-linux-gnu (64-bit)
-#&gt; Running under: Ubuntu 18.04.1 LTS
+<pre><code>#&gt; R version 3.5.2 (2018-12-20)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17763)
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS: /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
-#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
 #&gt; 
 #&gt; locale:
-#&gt;  [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
-#&gt;  [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
-#&gt;  [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
-#&gt;  [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
-#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-#&gt; [11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+#&gt; [1] LC_COLLATE=French_France.1252  LC_CTYPE=French_France.1252   
+#&gt; [3] LC_MONETARY=French_France.1252 LC_NUMERIC=C                  
+#&gt; [5] LC_TIME=French_France.1252    
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] compiler_3.4.4  magrittr_1.5    tools_3.4.4     htmltools_0.3.6
-#&gt;  [5] yaml_2.2.0      Rcpp_1.0.0      stringi_1.2.4   rmarkdown_1.11 
-#&gt;  [9] knitr_1.21      stringr_1.3.1   xfun_0.4        digest_0.6.15  
-#&gt; [13] evaluate_0.12</code></pre>
+#&gt;  [1] compiler_3.5.2  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
+#&gt;  [5] tools_3.5.2     htmltools_0.3.6 yaml_2.2.0      Rcpp_0.12.18   
+#&gt;  [9] stringi_1.1.7   rmarkdown_1.10  knitr_1.21      xfun_0.5       
+#&gt; [13] stringr_1.3.1   digest_0.6.17   evaluate_0.11</code></pre>
 </div>
 
 
