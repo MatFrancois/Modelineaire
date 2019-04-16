@@ -59,10 +59,10 @@ To participate, you need to:
 
 # III. Submission (example)
 
-```{r child='../starting_k/submission_script.Rmd'}
+```{r child='submission_script.Rmd'}
 ```
 ```{r}
-source("../starting_k/scoring_program/scoring.r")
+source("scoring_program/scoring.r")
 ```
 
 
