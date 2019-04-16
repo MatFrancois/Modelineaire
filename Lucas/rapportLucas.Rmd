@@ -30,15 +30,23 @@ don <- readRDS("data.rds")
 <!-- Rapport -->
 ## A : Méthodes statistiques utilisées
 
+### **Statistiques descriptives**
+
 Nous commençons l'exploration de nos données par l'observation des statistiques élémentaires ainsi que le nombre de valeur manquantes pour chaque variable.
 
-D'abord les variables quantitatives
+#### **Variables quantitatives**
+
 ```{r}
 # Stats univariées
 summary(don[,-c(2:10)])
 ```
 
-Puis un tri à plat pour les variables qualitatives
+Rien n'a l'air particulièrement alarmant sur les variables quantitatives, nous avons à peu près le même nombre de valeurs manquantes pour chaque gène (autours de 950) et l'âge n'a pas de valeur manquante. Nous ne trouvons pas non plus, de valeurs abérrantes. Seul le gène TUBA3C mérite qu'on fasse un peu plus attention en l'utilisant car dans au moins 50% des cas de notre échantillon il ne s'exprime pas du tout chez le patient observé.
+
+#### **Variables qualitatives**
+
+Ci-dessous un tri à plat de nos variables qualitatives
+
 ```{r}
 # Table pour les variables qualitatives
 TabMod<-function(x){
@@ -47,7 +55,15 @@ TabMod<-function(x){
 apply(X=don[,2:10],MARGIN=2,FUN=TabMod)
 ```
 
-Matrice de corrélation
+Nous voyons pas mal de valeurs manquantes sur pas mal de variables ici : cependant, nous n'avons aucune valeur manquante sur la localisation du gène (tissue), son état (tumoral ou normal), le programme suivi par le patient ainsi que son sexe, ces informations vont être intéressantes dans la construction du modèle.
+
+Il y a à peu près autant que d'hommes que de femmes dans notre étude et la grande majorité des tissus présentent une tumeur.
+
+
+#### **Lien entre les variables**
+
+Avant de commencer une modélisation, il est toujours intéressant de regarder la matrice des corrélations :
+
 ```{r, results = 'res1'}
 ### Création du squelette de la matrice de corrélation
 
@@ -79,14 +95,10 @@ corrplot(cor.m)
 cor.m
 ```
 
-variables corréllées entre elles  :
-  ND2 - ND3 - ND4
-  BRAF - MAP3K2
+Nous avons donc les exprssions des gènes ND2, ND3 et Nd4 qui sont positivement très corrélées (corrélation > 0.84 à chaque fois)
 
-*For instance* :
+Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 et BRAF (> 0.66) et celle entre MP3K2 et KRAS (> 0.58)
 
-### Statistiques descriptives
-- Descriptive statistics (actors, number of NA, pretreatment...)
 
 ### Méthodes utilisées pour notre modélisation
 - Methods: Which function for linear model? (*e.g* lm, aov, rlm, glm, other...), Which model are your main models? (ND2 ~ sex+age+tissue_status)...
@@ -101,9 +113,6 @@ For critical variation in your leader board score:
 
 ## C : Interprétation de nos résultats
 
-
-- Pros and cons each method  
-- Biological meaning (gene expression correlations, tissues status...)
 
 
 
