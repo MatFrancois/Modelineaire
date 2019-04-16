@@ -1,0 +1,187 @@
+---
+title: "Gene Expression Prediction Challenge (expred)"
+subtitle: "Starting kit"
+author: "Florent Chuffart & Magali Richard"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: false
+---
+
+```{r label="header", echo=FALSE, eval=TRUE}
+knitr::opts_chunk$set(collapse=TRUE, comment = "#>", fig.width=9, fig.height=6, eval=TRUE, echo=FALSE, results="hide")
+```
+
+# I. Overview
+
+```{r child='overview.Rmd'}
+```
+
+
+
+
+
+
+
+
+
+# II. How to participate?
+
+## Where to go? 
+
+The challenge is hosted on the codalab platform: https://competitions.codalab.org/
+
+To participate, you need to:
+
+1- create an acount on the codalab platform
+
+2- subscribe to the *expred* challenge
+
+3- constitute teams (up to 4 people) and design a team coordinator on the platform
+
+## How to start?
+
+```{r child='evaluation.Rmd'}
+```
+
+
+
+
+
+
+
+
+
+
+
+# III. Submission (example)
+
+```{r child='../starting_k/submission_script.Rmd'}
+```
+```{r}
+source("../starting_k/scoring_program/scoring.r")
+```
+
+
+
+
+
+
+
+
+# IV. Report / Evaluation
+
+## Report
+
+The goal will be to predict missing values in a gene expression dataset. 
+
+You will use the codalab platform to evaluate your methods. 
+
+The challenge will be open for a week on the platform.
+You will work in teams of 3 or 4.
+
+You will report by team. 
+The report must be returned by Wednesday, April 17th, before 2pm.
+
+This report should consist of 3 parts, with:
+
+**A) Statistical methods used**
+
+*For instance* :
+
+- Descriptive statistics (actors, number of NA, pretreatment...)
+- Methods: Which function for linear model? (*e.g* lm, aov, rlm, glm, other...), Which model are your main models? (ND2 ~ sex+age+tissue_status)...
+
+**B) Critical evaluation of the progression of the score**
+
+*For instance* :
+For critical variation in your leader board score:
+
+- Evaluation of your model (e.g. explained variance $R^2$, number of parameters...)
+- What is your score on codalab?
+    
+**C) Discussion and biological interpretation**
+
+*For instance* :
+
+- Pros and cons each method  
+- Biological meaning (gene expression correlations, tissues status...)
+
+## Evaluation
+
+You will be evaluated on the report you provide (hability to clearly explain your approach, the methods used and the evolution of your prediction score), the codalab leader board score **WILL NOT** be used as a metric to evaluate your score. 
+
+
+
+
+
+
+
+
+
+# V. References 
+
+
+[NCBI/GENE] https://www.ncbi.nlm.nih.gov/gene
+
+[TCGA] Data are coming from the TCGA (The cancer genome atlas). 
+They were extracted from several cohorts of patients. 
+Here are TCGA Study Abbreviations corresponding to each cancer. 
+https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations
+
+[Codalab] https://competitions.codalab.org
+
+[R] https://cran.r-project.org
+
+[RStudio] https://www.rstudio.com
+
+
+
+
+
+```{r, eval=FALSE}
+# SUPPLEMENTAL 
+## Few words about the dataset 
+m = lm(as.matrix(d[,gs]) ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
+data = as.matrix(d[,gs])
+data[is.na(d[,gs])] = predict(m, d)[is.na(d[,gs])]
+
+pca = prcomp(data, scale=TRUE)
+v = pca$sdev * pca$sdev
+p = v / sum(v) * 100
+layout(matrix(1:6,2, byrow=FALSE), respect=TRUE)
+barplot(p)
+i=3
+j=2
+plot(pca$x[,i], pca$x[,j], xlab=paste(sep="", "PC", i, "(", signif(p[i], 3), "%)"), ylab=paste(sep="",  "PC", j, "(", signif(p[j], 3), "%)"), pch=".")
+i=1
+j=3
+plot(pca$x[,i], pca$x[,j], xlab=paste(sep="",  "PC", i, "(", signif(p[i], 3), "%)"), ylab=paste(sep="",  "PC", j, "(", signif(p[j], 3), "%)"), pch=".")
+i=1
+j=2
+plot(pca$x[,i], pca$x[,j], xlab=paste(sep="",  "PC", i, "(", signif(p[i], 3), "%)"), ylab=paste(sep="",  "PC", j, "(", signif(p[j], 3), "%)"))
+```
+
+```{r eval=FALSE}
+sapply(gs, function(g){
+  boxplot(d[[g]] ~ d$tissue, las=2, main=paste(g, "~ tissue"))  
+})
+```
+
+
+
+
+
+
+
+
+# Session Information
+
+```{r, results="verbatim"}
+sessionInfo()
+```
+
+

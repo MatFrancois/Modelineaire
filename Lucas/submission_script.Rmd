@@ -1,0 +1,59 @@
+Please use the `submission_script.Rmd` contained in the `starting_kit` folder as a template to write, run and save your code.
+
+
+## Generate a missing value prediction
+
+In the provided example 1, we randomly fill missing values.
+
+In the provided example 2, for each gene, we use a simple linear to predict missing values.
+
+
+
+```{r echo=TRUE, results="verbnatim", label="generate_zip_file"}
+### DO NOT CHANGE THIS PART
+d = readRDS("data.rds")
+gs = colnames(d)[11:31]
+
+### PUT YOUR SCRIPT HERE
+# Example 1
+# pred = as.matrix(d[,gs])
+# pred[] = sample(na.omit(pred), nrow(pred)*ncol(pred), replace=TRUE)
+
+# # Example 2
+pred = sapply(gs, function(g, d){
+ m = lm(d[[g]] ~ d$tissue)
+ m = lm(d[[g]] ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
+ predict(m, d)
+}, d)
+
+### DO NOT CHANGE THIS PART, it needs *pred* variable
+pred[!is.na(as.matrix(d[,gs]))] = NA # Sparse, only submit NA values!
+saveRDS(pred, "results.rds")
+zip_filename = paste(sep="",  "results_", format(Sys.time(), format="%m_%d_%Y_%s"), ".zip")
+zip(zip_filename, "results.rds")
+print(zip_filename)
+```
+
+## Submit zip file
+
+It generates *`r zip_filename`* submission file.
+
+Submit the zip submission file in the `Participate` tab of the codalab challenge by clicking the `Submit` button.
+
+The metric used to evaluate prediction is the mean squared error (MSE) coded with the provided `scoring_function()`.
+
+On the codalab challenge web page, The *STATUS* become : 
+
+  - Submitting
+  - Submitted	
+  - Running
+  - Finished
+
+When it’s finished: 
+
+  - You refresh the page and see you score in the column *SCORE* 
+  - Details for report could be downloaded by clicking *Download output from scoring step*.
+  - Leader borad is updated in the `Results` tab.
+
+
+
