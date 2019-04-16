@@ -74,7 +74,11 @@ don.imput<-don.imput[,!colnames(don.imput)%in%c("t","n","m","tnm_stage","tnm_gra
 # })
 
 ##modele pour chaque gene
+require(lmtest)##pour hypothese d'homogénéité des variances
 pred1<-step(lm(don.imput$ATAD2~.,data=don.imput))
+shapiro.test(sample(pred1$residuals,5000))
+gqtest(pred1)
+hist(pred1$residuals)
 pred2<-step(lm(don.imput$SYCP3~.,data=don.imput))
 pred3<-step(lm(don.imput$BRDT~.,data=don.imput))
 pred4<-step(lm(don.imput$BRD4~.,data=don.imput))
@@ -123,7 +127,10 @@ mod2<-c(summary(pred1)$r.squared,summary(pred2)$r.squared,summary(pred3)$r.squar
       ,summary(pred16)$r.squared,summary(pred17)$r.squared,summary(pred18)$r.squared,summary(pred19)$r.squared
       ,summary(pred20)$r.squared,summary(pred21)$r.squared)
 
-df.r2<-rbind(r2,mod2)
+df.r2<-(rbind(r2,mod2))
 colnames(df.r2)<-gs
-df.r2<-t(df.r2)
+df.r2<-data.frame(t(df.r2))
 plot(df.r2)
+df.r2$gene<-gs
+df.new<-c(df.r2$r2,df.r2$mod2)
+df.new<-data.frame(r2=df.new,gene=c(df.r2$gene,df.r2$gene))
