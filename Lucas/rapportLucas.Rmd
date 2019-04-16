@@ -28,6 +28,19 @@ don <- readRDS("data.rds")
 ```
 
 <!-- Rapport -->
+##Présentation des données
+
+Afin d'être familiarisé avec les données il nous a fallut au préalable comprendre nos données principales, nous avons 21 gènes impliqués dans 7 processus biologiques différents :
+
+Le gène ATAD2 qui encode une enzyme qui transforme les macro protéines, et le gène SYCP3 qui encode une enzyme du complexe synaptonémal formé entre les chromosomes homologues. Ces deux enzymes constituent en parti les chromatines, structure au sein de laquelle l'ADN se trouve empaqueté et compacté dans le volume limité du noyau des cellules eucaryotes.
+Les gènes H19, IGF2, NNAT, BLCAP qui encodent des enzymes impliquées dans la régulation de la et le développement du corps et du cerveau font partie de la famille des gènes soumis à empreinte, c’est à dire que la copie héritée de la mère et la copie héritée du père ne sont pas exprimées de la même manière.
+Les gènes BRD4, BRDT, NUTM1 encodent des protéines qui associes les chromosomes durant la mitose.
+Les gènes TUBA3C, MAGEB6 jouent un rôle important dans la spermatogénèse. 
+Les gènes SMYD3, MAP3K2, KDR encodent des enzymes faisant parties de la famille des méthyltransférases, un groupe d'enzymes qui transfèrent un groupe méthyle d'un donneur à un accepteur.
+Les gènes KRAS, BRAF encodent des enzymes oncogènes et le gène TP53 est impliqué dans la régulation du cycle cellulaire. 
+Les gènes FASTKD1, ND2, ND3, ND4 encodent des enzymes responsables  de l’activité mitochondriale.
+
+
 ## A : Méthodes statistiques utilisées
 
 ### **Statistiques descriptives**
@@ -101,18 +114,80 @@ Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 e
 
 
 ### Méthodes utilisées pour notre modélisation
-- Methods: Which function for linear model? (*e.g* lm, aov, rlm, glm, other...), Which model are your main models? (ND2 ~ sex+age+tissue_status)...
+
+Dans un premier temps nous avons utilisé le modèle mis à disposition dans l'énnoncé qui permettait de prédire chaque gêne en fonction de l'age et le sexe du candidat, le tissue cancerigene, son statut, et le projet d'étude associé. Afin d'améliorer ces 21 modèles similaires, nous avons décidé d'ajouter un "step()" dans le code. Cela permettant d'afiner chaque regression linéaire, en supprimant les variables qui n'ont pas d'impact sur la valeur du gêne choisit. 
+Pour aller plus loin dans la prédiction nous nous sommes dit que ce qui pouvait expliquer la valeur d'expression d'un gêne pouvait être la valeur d'expression des gênes de la même famille ou même des gênes en général. Nous avons donc cherché à inclure la valeur d'expression des gênes de notre base de données pour prédire ceux ci. Il a fallut donc procéder en deux étapes, la première étant d'imputer les valeurs manquantes une première fois pour avoir un jeu de données complet. La seconde étant de réaliser un nouveau modèle en exprimant chaque gène à nouveau avec les variables précédemment utilisées mais en y ajoutant les gênes restant (puis d'affiner le modèle comme précédemment). 
+Pour la première étape nous avons décidé d'imputer les valeurs manquantes de chaque gênes par les valeurs prédites lors du deuxième modèle fait précédemment. Etant données le faible taux d'erreur obtenu (observé sur codalab) cette imputation semblait judicieuse. Ensuite il n'a suffit que d'appliquer la méthode classique de regression linéaire multiple.
+
+Nous obtenons donc les modèles suivant :
+ATAD2 ~ age + sex + tissue_status + project + tissue + 
+    BRDT + BRD4 + MAGEB6 + TUBA3C + H19 + IGF2 + NNAT + BLCAP + 
+    SMYD3 + MAP3K2 + KDR + TP53 + KRAS + BRAF + FASTKD1 + ND2 + 
+    ND3
+SYCP3 ~ tissue_status + project + tissue + 
+    ATAD2 + BRDT + NUTM1 + TUBA3C + H19 + IGF2 + NNAT + BLCAP + 
+    SMYD3 + MAP3K2 + TP53 + KRAS + BRAF + FASTKD1 + ND2 + ND4
+BRDT ~ tissue_status + project + tissue + 
+    ATAD2 + SYCP3 + BRD4 + NUTM1 + MAGEB6 + TUBA3C + IGF2 + NNAT + 
+    BLCAP + SMYD3 + MAP3K2 + KDR + TP53 + BRAF + ND2
+BRD4 ~ age + tissue_status + project + 
+    tissue + ATAD2 + BRDT + NUTM1 + MAGEB6 + H19 + IGF2 + BLCAP + 
+    SMYD3 + MAP3K2 + KDR + TP53 + BRAF + FASTKD1 + ND2 + ND3 + 
+    ND4
+NUTM1 ~ project + tissue + ATAD2 + SYCP3 + 
+    BRDT + BRD4 + MAGEB6 + TUBA3C + IGF2 + NNAT + SMYD3 + MAP3K2 + 
+    KDR + BRAF + FASTKD1 + ND3 + ND4
+MAGEB6 ~ age + sex + tissue_status + project + 
+    tissue + ATAD2 + BRDT + BRD4 + NUTM1 + TUBA3C + H19 + IGF2 + 
+    NNAT + BLCAP + KDR + TP53 + KRAS + BRAF + ND3 + ND4
+TUBA3C ~ age + sex + project + ATAD2 + 
+    SYCP3 + BRDT + NUTM1 + MAGEB6 + H19 + IGF2 + BLCAP + SMYD3 + 
+    MAP3K2 + KDR + TP53 + KRAS + ND2 + ND4
+H19 ~ age + project + tissue + ATAD2 + 
+    SYCP3 + BRD4 + MAGEB6 + TUBA3C + IGF2 + NNAT + SMYD3 + MAP3K2 + 
+    KDR + KRAS + BRAF + ND3 + ND4
+IGF2 ~ age + sex + tissue_status + project + 
+    tissue + ATAD2 + BRDT + BRD4 + NUTM1 + MAGEB6 + TUBA3C + 
+    H19 + NNAT + BLCAP + SMYD3 + MAP3K2 + KDR + TP53 + KRAS + 
+    FASTKD1 + ND4
+NNAT ~ age + tissue_status + project + 
+    tissue + ATAD2 + SYCP3 + BRDT + NUTM1 + MAGEB6 + H19 + IGF2 + 
+    BLCAP + SMYD3 + MAP3K2 + KDR + TP53 + KRAS + BRAF + FASTKD1 + 
+    ND2 + ND3
+
+
+
+
+
+
+
+
+
 
 ## B : Autocritique sur l'évolution de notre score
 
-*For instance* :
-For critical variation in your leader board score:
+-- partie sur les shapiro test / gqtest --
 
-- Evaluation of your model (e.g. explained variance $R^2$, number of parameters...)
-- What is your score on codalab?
+On peut voir ici l'évolution de notre R² en fonction de nos 2 modèles principaux, en bleu le premier modèle réalisé, en rouge le second :
+
+```{r echo=FALSE,include=TRUE}
+load("../evor2.RData")
+plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
+text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))
+points(sort(df.r2$mod2),col="red",pch=16,cex=sort(df.r2$mod2))
+text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(df.r2$mod2),adj = c(0.5,-1))
+
+```
+
+le modèle final est donc bien plus efficace pour ce qui est de la prédiction de la valeur d'expression de chaque gêne.
+Ce qui est logique, car le nombre de paramêtres dans la deuxième version du modèle est bien plus importante.
+L'observation de l'évolution du R² nous permet de voir l'efficacité des modèles en général, en effet on peut voir que le pourcentage de variance expliqué par le modèle concernant les gênes ND2 à ND4 est bien plus important que les gênes TUBA3C ou MAGEB6. Mais surtout que la progression de ce pourcentage a été incomparable aux autres pour les gênes ND2 à ND4. Cela peut s'expliquer par la corrélation importante entre ces trois variables. En effet, selon la littérature scientifique ces 3 gênes on des fonctions molléculaire similaire en plus de faire partie du même processus biologique (la mitochondrie).
+
 
 ## C : Interprétation de nos résultats
 
+Globalement, on peut voir que chaque gène contient dans son modèle de prédiction au moins un autre gènes d'une famille différente, en conséquent on peut déduire la valeur d'expression d'un gênes en fonction d'un autre (en partie) mais aussi de l'age, le sexe, le fait que le tissue soit tumoral ou non etc...
+La réalisation du modèle et des statistiques descriptive aura permis aussi de voir que seul les gênes concernant l'activité mitchondrique on un lien fort entre eux, c'est le cas aussi pour les autres mais dans une moindre mesure.
 
 
 

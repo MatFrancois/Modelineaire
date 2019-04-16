@@ -210,7 +210,8 @@ mod2<-c(summary(pred1)$r.squared,summary(pred2)$r.squared,summary(pred3)$r.squar
 df.r2<-(rbind(r2,mod2))
 colnames(df.r2)<-gs
 df.r2<-data.frame(t(df.r2))
-plot(df.r2)
-df.r2$gene<-gs
-df.new<-c(df.r2$r2,df.r2$mod2)
-df.new<-data.frame(r2=df.new,gene=c(df.r2$gene,df.r2$gene))
+save(df.r2,file = "evor2.RData")
+plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
+text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))
+points(sort(df.r2$mod2),col="red",pch=16,cex=sort(df.r2$mod2))
+text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(df.r2$mod2),adj = c(0.5,-1))
