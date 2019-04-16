@@ -215,3 +215,42 @@ plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2))
 text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))
 points(sort(df.r2$mod2),col="red",pch=16,cex=sort(df.r2$mod2))
 text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(df.r2$mod2),adj = c(0.5,-1))
+
+
+####
+####matrice des parametres de chaque modele
+param<-function(obj){
+  noms<-NULL
+  for (i in 3:length(attr(obj$terms,"variables"))){
+    noms<-c(noms,paste(attr(obj$terms,"variables")[[i]]))
+  }
+  return(noms)
+}
+###matrice
+gs<-c("sex","tissue_status","project","tissue",gs)
+param.mat<-matrix(nrow = length(gs),ncol = length(gs))
+
+
+param.mat<-rbind(ifelse(gs%in%param(pred1),"x",""),
+      ifelse(gs%in%param(pred2),"x",""),
+      ifelse(gs%in%param(pred3),"x",""),
+      ifelse(gs%in%param(pred4),"x",""),
+      ifelse(gs%in%param(pred5),"x",""),
+      ifelse(gs%in%param(pred6),"x",""),
+      ifelse(gs%in%param(pred7),"x",""),
+      ifelse(gs%in%param(pred8),"x",""),
+      ifelse(gs%in%param(pred9),"x",""),
+      ifelse(gs%in%param(pred10),"x",""),
+      ifelse(gs%in%param(pred11),"x",""),
+      ifelse(gs%in%param(pred12),"x",""),
+      ifelse(gs%in%param(pred13),"x",""),
+      ifelse(gs%in%param(pred14),"x",""),
+      ifelse(gs%in%param(pred15),"x",""),
+      ifelse(gs%in%param(pred16),"x",""),
+      ifelse(gs%in%param(pred17),"x",""),
+      ifelse(gs%in%param(pred18),"x",""),
+      ifelse(gs%in%param(pred19),"x",""),
+      ifelse(gs%in%param(pred20),"x",""),
+      ifelse(gs%in%param(pred21),"x",""))
+row.names(param.mat)<-gs[-c(1:4)]
+colnames(param.mat)<-gs
