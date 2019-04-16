@@ -1,7 +1,7 @@
 ---
 title: "Gene Expression Prediction Challenge (expred)"
 subtitle: "Starting kit"
-author: "Florent Chuffart & Magali Richard"
+author: "Azat Aleksanyan, Lucas Chabeau, Matthieu Frabçois, Etienne Hamard"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:
@@ -11,108 +11,100 @@ output:
     number_sections: false
 ---
 
+<!-- Paramètres de knittage -->
 ```{r label="header", echo=FALSE, eval=TRUE}
 knitr::opts_chunk$set(collapse=TRUE, comment = "#>", fig.width=9, fig.height=6, eval=TRUE, echo=FALSE, results="hide")
 ```
 
-# I. Overview
-
-```{r child='overview.Rmd'}
+<!-- Packages utilisés -->
+```{r, warning=FALSE}
+require(ggplot2)
+require(corrplot)
 ```
 
-
-
-
-
-
-
-
-
-# II. How to participate?
-
-## Where to go? 
-
-The challenge is hosted on the codalab platform: https://competitions.codalab.org/
-
-To participate, you need to:
-
-1- create an acount on the codalab platform
-
-2- subscribe to the *expred* challenge
-
-3- constitute teams (up to 4 people) and design a team coordinator on the platform
-
-## How to start?
-
-```{r child='evaluation.Rmd'}
-```
-
-
-
-
-
-
-
-
-
-
-
-# III. Submission (example)
-
-```{r child='../starting_k/submission_script.Rmd'}
-```
+<!-- Importation des données -->
 ```{r}
-source("../starting_k/scoring_program/scoring.r")
+don <- readRDS("data.rds")
 ```
 
+<!-- Rapport -->
+## A : Méthodes statistiques utilisées
 
+Nous commençons l'exploration de nos données par l'observation des statistiques élémentaires ainsi que le nombre de valeur manquantes pour chaque variable.
 
+D'abord les variables quantitatives
+```{r}
+# Stats univariées
+summary(don[,-c(2:10)])
+```
 
+Puis un tri à plat pour les variables qualitatives
+```{r}
+# Table pour les variables qualitatives
+TabMod<-function(x){
+  return(table(x,exclude = NULL))
+}
+apply(X=don[,2:10],MARGIN=2,FUN=TabMod)
+```
 
+Matrice de corrélation
+```{r, results = 'res1'}
+### Création du squelette de la matrice de corrélation
 
+#Remplissage de 1
+cor.m<-matrix(rep(1,length(names(don[,-c(2:10)]))**2),nrow=length(names(don[,-c(2:10)])))
 
+#Noms lignes et colonnes
+colnames(cor.m)<-names(don[,-c(2:10)])
+rownames(cor.m)<-names(don[,-c(2:10)])
 
-# IV. Report / Evaluation
+#Remplissage du traingle supérieur de la matrice
+for (i in 1:length(combn(names(don[,-c(2:10)]),2)[1,])){
+  cor.m[combn(names(don[,-c(2:10)]),2)[1,i],combn(names(don[,-c(2:10)]),2)[2,i]]<-cor(na.omit(don[,c(combn(names(don[,-c(2:10)]),2)[1,i],combn(names(don[,-c(2:10)]),2)[2,i])]))[2]
+}
 
-## Report
+#Remplissage du triangle supérieur de la matrice
+for (i in 1:length(combn(names(don[,-c(2:10)]),2)[1,])){
+  cor.m[combn(names(don[,-c(2:10)]),2)[1,i],combn(names(don[,-c(2:10)]),2)[2,i]]<-cor(na.omit(don[,c(combn(names(don[,-c(2:10)]),2)[1,i],combn(names(don[,-c(2:10)]),2)[2,i])]))[2]
+}
 
-The goal will be to predict missing values in a gene expression dataset. 
+#Remplissage du triangle inférieur de la matrice
+for (i in 1:length(names(don[,-c(2:10)]))){
+  for(j in 1:length(names(don[,-c(2:10)]))){
+    if(cor.m[i,j]==1){cor.m[i,j]<-cor.m[j,i]}
+  }
+}
 
-You will use the codalab platform to evaluate your methods. 
+corrplot(cor.m)
+cor.m
+```
 
-The challenge will be open for a week on the platform.
-You will work in teams of 3 or 4.
-
-You will report by team. 
-The report must be returned by Wednesday, April 17th, before 2pm.
-
-This report should consist of 3 parts, with:
-
-**A) Statistical methods used**
+variables corréllées entre elles  :
+  ND2 - ND3 - ND4
+  BRAF - MAP3K2
 
 *For instance* :
 
+### Statistiques descriptives
 - Descriptive statistics (actors, number of NA, pretreatment...)
+
+### Méthodes utilisées pour notre modélisation
 - Methods: Which function for linear model? (*e.g* lm, aov, rlm, glm, other...), Which model are your main models? (ND2 ~ sex+age+tissue_status)...
 
-**B) Critical evaluation of the progression of the score**
+## B : Autocritique sur l'évolution de notre score
 
 *For instance* :
 For critical variation in your leader board score:
 
 - Evaluation of your model (e.g. explained variance $R^2$, number of parameters...)
 - What is your score on codalab?
-    
-**C) Discussion and biological interpretation**
 
-*For instance* :
+## C : Interprétation de nos résultats
+
 
 - Pros and cons each method  
 - Biological meaning (gene expression correlations, tissues status...)
 
-## Evaluation
-
-You will be evaluated on the report you provide (hability to clearly explain your approach, the methods used and the evolution of your prediction score), the codalab leader board score **WILL NOT** be used as a metric to evaluate your score. 
 
 
 
@@ -121,22 +113,6 @@ You will be evaluated on the report you provide (hability to clearly explain you
 
 
 
-
-# V. References 
-
-
-[NCBI/GENE] https://www.ncbi.nlm.nih.gov/gene
-
-[TCGA] Data are coming from the TCGA (The cancer genome atlas). 
-They were extracted from several cohorts of patients. 
-Here are TCGA Study Abbreviations corresponding to each cancer. 
-https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations
-
-[Codalab] https://competitions.codalab.org
-
-[R] https://cran.r-project.org
-
-[RStudio] https://www.rstudio.com
 
 
 
@@ -169,19 +145,6 @@ plot(pca$x[,i], pca$x[,j], xlab=paste(sep="",  "PC", i, "(", signif(p[i], 3), "%
 sapply(gs, function(g){
   boxplot(d[[g]] ~ d$tissue, las=2, main=paste(g, "~ tissue"))  
 })
-```
-
-
-
-
-
-
-
-
-# Session Information
-
-```{r, results="verbatim"}
-sessionInfo()
 ```
 
 
