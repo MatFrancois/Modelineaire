@@ -76,29 +76,109 @@ don.imput<-don.imput[,!colnames(don.imput)%in%c("t","n","m","tnm_stage","tnm_gra
 ##modele pour chaque gene
 require(lmtest)##pour hypothese d'homogénéité des variances
 pred1<-step(lm(don.imput$ATAD2~.,data=don.imput))
-shapiro.test(sample(pred1$residuals,5000))
-gqtest(pred1)
+shapiro.test(sample(pred1$residuals,5000)) #p-value < 0.05
+gqtest(pred1) #p-value = 1
 hist(pred1$residuals)
+
 pred2<-step(lm(don.imput$SYCP3~.,data=don.imput))
+shapiro.test(sample(pred2$residuals,5000)) #p-value < 0.05
+gqtest(pred2) #p-value = 1
+hist(pred2$residuals)  
+
 pred3<-step(lm(don.imput$BRDT~.,data=don.imput))
+shapiro.test(sample(pred3$residuals,5000)) #p-value < 0.05
+gqtest(pred3) #p-value = 1
+hist(pred3$residuals)  
+
 pred4<-step(lm(don.imput$BRD4~.,data=don.imput))
+shapiro.test(sample(pred4$residuals,5000)) #p-value < 0.05
+gqtest(pred4) #p-value = 0.69
+hist(pred4$residuals)  
+
 pred5<-step(lm(don.imput$NUTM1~.,data=don.imput))
+shapiro.test(sample(pred5$residuals,5000)) #p-value < 0.05
+gqtest(pred5) #p-value = 1
+hist(pred5$residuals)  
+
 pred6<-step(lm(don.imput$MAGEB6~.,data=don.imput))
+shapiro.test(sample(pred6$residuals,5000)) #p-value < 0.05
+gqtest(pred6) #p-value = 1
+hist(pred6$residuals)  
+
 pred7<-step(lm(don.imput$TUBA3C~.,data=don.imput))
+shapiro.test(sample(pred7$residuals,5000)) #p-value < 0.05
+gqtest(pred7) #p-value = 1
+hist(pred7$residuals)  
+
 pred8<-step(lm(don.imput$H19~.,data=don.imput))
+shapiro.test(sample(pred8$residuals,5000)) #p-value < 0.05
+gqtest(pred8) #p-value = 0.00014
+hist(pred8$residuals)  
+
 pred9<-step(lm(don.imput$IGF2~.,data=don.imput))
+shapiro.test(sample(pred9$residuals,5000)) #p-value < 0.05
+gqtest(pred9) #p-value = 0.38
+hist(pred9$residuals)  
+
 pred10<-step(lm(don.imput$NNAT~.,data=don.imput))
+shapiro.test(sample(pred10$residuals,5000)) #p-value < 0.05
+gqtest(pred10) #p-value = 0.21
+hist(pred10$residuals)  
+
 pred11<-step(lm(don.imput$BLCAP~.,data=don.imput))
+shapiro.test(sample(pred11$residuals,5000)) #p-value < 0.05
+gqtest(pred11) #p-value = 1
+hist(pred11$residuals)  
+
 pred12<-step(lm(don.imput$SMYD3~.,data=don.imput))
+shapiro.test(sample(pred12$residuals,5000)) #p-value < 0.05
+gqtest(pred12) #p-value = 1
+hist(pred12$residuals)  
+
 pred13<-step(lm(don.imput$MAP3K2~.,data=don.imput))
+shapiro.test(sample(pred13$residuals,5000)) #p-value < 0.05
+gqtest(pred13) #p-value = 1
+hist(pred13$residuals)  
+
 pred14<-step(lm(don.imput$KDR~.,data=don.imput))
+shapiro.test(sample(pred14$residuals,5000)) #p-value < 0.05
+gqtest(pred14) #p-value < 0.05
+hist(pred14$residuals)  
+
 pred15<-step(lm(don.imput$TP53~.,data=don.imput))
+shapiro.test(sample(pred15$residuals,5000)) #p-value < 0.05
+gqtest(pred15) #p-value = 1
+hist(pred15$residuals)  
+
 pred16<-step(lm(don.imput$KRAS~.,data=don.imput))
+shapiro.test(sample(pred16$residuals,5000)) #p-value < 0.05
+gqtest(pred16) #p-value = 0.001469
+hist(pred16$residuals)  
+
 pred17<-step(lm(don.imput$BRAF~.,data=don.imput))
+shapiro.test(sample(pred17$residuals,5000)) #p-value < 0.05
+gqtest(pred17) #p-value = 1
+hist(pred17$residuals)  
+
 pred18<-step(lm(don.imput$FASTKD1~.,data=don.imput))
+shapiro.test(sample(pred18$residuals,5000)) #p-value < 0.05
+gqtest(pred18) #p-value = 0.5255
+hist(pred18$residuals)  
+
 pred19<-step(lm(don.imput$ND2~.,data=don.imput))
+shapiro.test(sample(pred19$residuals,5000)) #p-value < 0.05
+gqtest(pred19) #p-value = 1
+hist(pred19$residuals)  
+
 pred20<-step(lm(don.imput$ND3~.,data=don.imput))
+shapiro.test(sample(pred20$residuals,5000)) #p-value < 0.05
+gqtest(pred20) #p-value = <0.05
+hist(pred20$residuals)  
+
 pred21<-step(lm(don.imput$ND4~.,data=don.imput))
+shapiro.test(sample(pred21$residuals,5000)) #p-value < 0.05
+gqtest(pred21) #p-value = 0.2
+hist(pred21$residuals)  
 
 ##prediction
 res.pred<-cbind(predict(pred1),predict(pred2),predict(pred3),predict(pred4)
