@@ -115,8 +115,10 @@ Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 e
 
 ### Méthodes utilisées pour notre modélisation
 
-Dans un premier temps nous avons utilisé le modèle mis à disposition dans l’énoncé qui permettait de prédire chaque gêne en fonction de l'age et le sexe du candidat, le tissue cancérigène, son statut, et le projet d'étude associé. Afin d'améliorer ces 21 modèles similaires, nous avons décidé d'ajouter un "step()" dans le code. Cela permettant d’affiner chaque régression linéaire, en supprimant les variables qui n'ont pas d'impact sur la valeur du gêne choisit. 
-Pour aller plus loin dans la prédiction nous nous sommes dit que ce qui pouvait expliquer la valeur d'expression d'un gêne pouvait être la valeur d'expression des gênes de la même famille ou même des gênes en général. Nous avons donc cherché à inclure la valeur d'expression des gênes de notre base de données pour prédire ceux ci. Il a fallut donc procéder en deux étapes, la première étant d'imputer les valeurs manquantes une première fois pour avoir un jeu de données complet. La seconde étant de réaliser un nouveau modèle en exprimant chaque gène à nouveau avec les variables précédemment utilisées mais en y ajoutant les gênes restant (puis d'affiner le modèle comme précédemment). 
+Dans un premier temps nous avons utilisé le modèle mis à disposition dans l’énoncé qui permettait de prédire chaque gêne en fonction de l'age et le sexe du candidat, le tissue cancérigène, son statut, et le projet d'étude associé. 
+Afin d'améliorer ces 21 modèles similaires, nous avons décidé d'ajouter un "step()" dans le code. Cela permettant d’affiner chaque régression linéaire, en supprimant les variables qui n'ont pas d'impact sur la valeur du gêne choisit. 
+
+Dans un second temps, pour aller plus loin dans la prédiction, nous nous sommes dit que ce qui pouvait expliquer la valeur d'expression d'un gêne pouvait être la valeur d'expression des gênes de la même famille ou même des gênes en général. Nous avons donc cherché à inclure la valeur d'expression des gênes de notre base de données pour prédire ceux ci. Il a fallut donc procéder en deux étapes, la première étant d'imputer les valeurs manquantes une première fois pour avoir un jeu de données complet. La seconde étant de réaliser un nouveau modèle en exprimant chaque gène à nouveau avec les variables précédemment utilisées mais en y ajoutant les gênes restant (puis d'affiner le modèle comme précédemment). 
 Pour la première étape nous avons décidé d'imputer les valeurs manquantes de chaque gênes par les valeurs prédites lors du deuxième modèle fait précédemment. Etant données le faible taux d'erreur obtenu (observé sur codalab) cette imputation semblait judicieuse. Ensuite il n'a suffit que d'appliquer la méthode classique de régression linéaire multiple.
 
 Le tableau suivant résume pour chaque gêne quel paramêtre est utilisé (marqué par une croix) :
@@ -146,6 +148,8 @@ text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(
 le modèle final est donc bien plus efficace pour ce qui est de la prédiction de la valeur d'expression de chaque gêne.
 Ce qui est logique, car le nombre de paramêtres dans la deuxième version du modèle est bien plus importante.
 L'observation de l'évolution du R² nous permet de voir l'efficacité des modèles en général, en effet on peut voir que le pourcentage de variance expliqué par le modèle concernant les gênes ND2 à ND4 est bien plus important que les gênes TUBA3C ou MAGEB6. Mais surtout que la progression de ce pourcentage a été incomparable aux autres pour les gênes ND2 à ND4. Cela peut s'expliquer par la corrélation importante entre ces trois variables. En effet, selon la littérature scientifique ces 3 gênes on des fonctions moléculaire similaire en plus de faire partie du même processus biologique (la mitochondrie).
+Toutefois on peut surtout voir que plusieurs modèles garde un R² relativement faible (<0.5), pour le taux d'erreur n'est pas si élevé lors des résultats, il se peut donc qu'il n'y est pas besoin d'un modèle particulièrement puissant pour ces gènes.
+
 De plus, le premier modèle nous permettait d'avoir un score sur codalab de 1.54, qui était le score médian des participants. Alors que le second modèle nous permet d'atteindre un score de 1.23, qui est le meilleur score obtenu des participants.
 
 ## C : Interprétation de nos résultats
@@ -159,6 +163,7 @@ En résumant le tableau précédent concernant les paramêtres de chaque modèle
 summary(data.frame(param.mat))
 ```
 
+Enfin, pour aller plus loin, il pourrait être intéressant d'ajouter des variables au jeu de données, en effet, en regardant le taux d'erreur sur certains gênes dans les résultats de tous les participants, on peut voir que celui ci est très élevé. En conséquent, malgré les multiples modèles différents de chacun, il manque obligatoirement des informations (notamment pour les gênes H19 et IGF2, qui ont un taux d'erreur de plus de 4). De plus afin d'améliorer le score global nous aurions pu alterner nos prédictions et nos imputation des Nas, ce qui aurait finalement pu converger vers une valeur plus précise.
 
 
 
