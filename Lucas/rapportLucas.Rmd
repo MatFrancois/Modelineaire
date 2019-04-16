@@ -36,7 +36,7 @@ Nous commençons l'exploration de nos données par l'observation des statistique
 
 #### **Variables quantitatives**
 
-```{r}
+```{r results = 'quanti'}
 # Stats univariées
 summary(don[,-c(2:10)])
 ```
@@ -47,7 +47,7 @@ Rien n'a l'air particulièrement alarmant sur les variables quantitatives, nous 
 
 Ci-dessous un tri à plat de nos variables qualitatives
 
-```{r}
+```{r results = 'quali'}
 # Table pour les variables qualitatives
 TabMod<-function(x){
   return(table(x,exclude = NULL))
@@ -64,7 +64,7 @@ Il y a à peu près autant que d'hommes que de femmes dans notre étude et la gr
 
 Avant de commencer une modélisation, il est toujours intéressant de regarder la matrice des corrélations :
 
-```{r, results = 'res1'}
+```{r, results = 'correlation'}
 ### Création du squelette de la matrice de corrélation
 
 #Remplissage de 1
@@ -95,7 +95,7 @@ corrplot(cor.m)
 cor.m
 ```
 
-Nous avons donc les exprssions des gènes ND2, ND3 et Nd4 qui sont positivement très corrélées (corrélation > 0.84 à chaque fois)
+Nous avons donc les exprssions des gènes ND2, ND3 et ND4 qui sont positivement très corrélées (corrélation > 0.84 à chaque fois)
 
 Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 et BRAF (> 0.66) et celle entre MP3K2 et KRAS (> 0.58)
 

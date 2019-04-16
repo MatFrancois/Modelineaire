@@ -305,11 +305,151 @@ div.tocify {
 <p>Nous commençons l’exploration de nos données par l’observation des statistiques élémentaires ainsi que le nombre de valeur manquantes pour chaque variable.</p>
 <div id="variables-quantitatives" class="section level4">
 <h4><strong>Variables quantitatives</strong></h4>
+<pre><code>#&gt;       age            ATAD2            SYCP3             BRDT       
+#&gt;  Min.   :14.58   Min.   : 6.163   Min.   : 0.000   Min.   : 0.000  
+#&gt;  1st Qu.:51.32   1st Qu.: 9.928   1st Qu.: 2.732   1st Qu.: 0.000  
+#&gt;  Median :61.22   Median :10.781   Median : 3.672   Median : 1.279  
+#&gt;  Mean   :59.92   Mean   :10.769   Mean   : 3.742   Mean   : 1.905  
+#&gt;  3rd Qu.:70.16   3rd Qu.:11.672   3rd Qu.: 4.651   3rd Qu.: 2.527  
+#&gt;  Max.   :90.06   Max.   :15.286   Max.   :11.698   Max.   :12.824  
+#&gt;                  NA's   :971      NA's   :972      NA's   :938     
+#&gt;       BRD4            NUTM1            MAGEB6          TUBA3C       
+#&gt;  Min.   : 8.997   Min.   : 0.000   Min.   :0.000   Min.   : 0.0000  
+#&gt;  1st Qu.:12.072   1st Qu.: 0.000   1st Qu.:0.000   1st Qu.: 0.0000  
+#&gt;  Median :12.403   Median : 1.192   Median :0.000   Median : 0.0000  
+#&gt;  Mean   :12.463   Mean   : 1.550   Mean   :0.566   Mean   : 0.9201  
+#&gt;  3rd Qu.:12.797   3rd Qu.: 2.346   3rd Qu.:0.000   3rd Qu.: 1.2208  
+#&gt;  Max.   :16.623   Max.   :12.057   Max.   :9.245   Max.   :12.9165  
+#&gt;  NA's   :947      NA's   :928      NA's   :992     NA's   :934      
+#&gt;       H19              IGF2             NNAT            BLCAP      
+#&gt;  Min.   : 0.000   Min.   : 2.818   Min.   : 0.000   Min.   : 8.46  
+#&gt;  1st Qu.: 7.442   1st Qu.: 9.269   1st Qu.: 4.225   1st Qu.:11.72  
+#&gt;  Median : 9.352   Median :10.732   Median : 5.357   Median :12.20  
+#&gt;  Mean   : 9.323   Mean   :11.194   Mean   : 5.678   Mean   :12.21  
+#&gt;  3rd Qu.:11.132   3rd Qu.:12.567   3rd Qu.: 6.636   3rd Qu.:12.63  
+#&gt;  Max.   :19.964   Max.   :22.528   Max.   :17.059   Max.   :16.34  
+#&gt;  NA's   :922      NA's   :998      NA's   :953      NA's   :920    
+#&gt;      SMYD3            MAP3K2            KDR              TP53       
+#&gt;  Min.   : 4.944   Min.   : 7.776   Min.   : 5.208   Min.   : 5.838  
+#&gt;  1st Qu.: 7.867   1st Qu.:11.087   1st Qu.: 9.220   1st Qu.:11.079  
+#&gt;  Median : 8.400   Median :11.596   Median :10.252   Median :11.722  
+#&gt;  Mean   : 8.461   Mean   :11.533   Mean   :10.364   Mean   :11.599  
+#&gt;  3rd Qu.: 8.998   3rd Qu.:12.050   3rd Qu.:11.377   3rd Qu.:12.269  
+#&gt;  Max.   :13.575   Max.   :14.524   Max.   :15.942   Max.   :14.792  
+#&gt;  NA's   :1015     NA's   :877      NA's   :945      NA's   :954     
+#&gt;       KRAS             BRAF           FASTKD1            ND2        
+#&gt;  Min.   : 7.229   Min.   : 7.287   Min.   : 5.530   Min.   : 7.892  
+#&gt;  1st Qu.:10.689   1st Qu.:10.082   1st Qu.: 9.309   1st Qu.:16.522  
+#&gt;  Median :11.193   Median :10.673   Median : 9.706   Median :17.288  
+#&gt;  Mean   :11.196   Mean   :10.574   Mean   : 9.710   Mean   :17.339  
+#&gt;  3rd Qu.:11.683   3rd Qu.:11.133   3rd Qu.:10.116   3rd Qu.:18.171  
+#&gt;  Max.   :17.610   Max.   :15.093   Max.   :12.444   Max.   :22.602  
+#&gt;  NA's   :936      NA's   :918      NA's   :996      NA's   :975     
+#&gt;       ND3              ND4        
+#&gt;  Min.   : 8.127   Min.   : 9.106  
+#&gt;  1st Qu.:15.096   1st Qu.:17.955  
+#&gt;  Median :15.816   Median :18.679  
+#&gt;  Mean   :15.894   Mean   :18.721  
+#&gt;  3rd Qu.:16.658   3rd Qu.:19.486  
+#&gt;  Max.   :21.292   Max.   :24.167  
+#&gt;  NA's   :954      NA's   :955</code></pre>
 <p>Rien n’a l’air particulièrement alarmant sur les variables quantitatives, nous avons à peu près le même nombre de valeurs manquantes pour chaque gène (autours de 950) et l’âge n’a pas de valeur manquante. Nous ne trouvons pas non plus, de valeurs abérrantes. Seul le gène TUBA3C mérite qu’on fasse un peu plus attention en l’utilisant car dans au moins 50% des cas de notre échantillon il ne s’exprime pas du tout chez le patient observé.</p>
 </div>
 <div id="variables-qualitatives" class="section level4">
 <h4><strong>Variables qualitatives</strong></h4>
 <p>Ci-dessous un tri à plat de nos variables qualitatives</p>
+<pre><code>#&gt; $sex
+#&gt; x
+#&gt;    F    M 
+#&gt; 4693 4417 
+#&gt; 
+#&gt; $tissue_status
+#&gt; x
+#&gt;  normal tumoral 
+#&gt;     611    8499 
+#&gt; 
+#&gt; $project
+#&gt; x
+#&gt;  TCGA-ACC TCGA-BLCA TCGA-BRCA TCGA-CHOL TCGA-COAD TCGA-DLBC TCGA-ESCA 
+#&gt;        78       376      1151        39       411        27       167 
+#&gt;  TCGA-GBM TCGA-HNSC TCGA-KICH TCGA-KIRC TCGA-KIRP  TCGA-LGG TCGA-LIHC 
+#&gt;       140       496        81       501       281       494       395 
+#&gt; TCGA-LUAD TCGA-LUSC TCGA-MESO   TCGA-OV TCGA-PAAD TCGA-PCPG TCGA-PRAD 
+#&gt;       456       474        80       341       151       162       512 
+#&gt; TCGA-READ TCGA-SARC TCGA-SKCM TCGA-STAD TCGA-TGCT TCGA-THCA TCGA-THYM 
+#&gt;       137       231        91       391       133       535       115 
+#&gt; TCGA-UCEC  TCGA-UCS  TCGA-UVM 
+#&gt;       529        56        79 
+#&gt; 
+#&gt; $tissue
+#&gt; x
+#&gt;                     adnexa              adrenal_gland 
+#&gt;                         79                        224 
+#&gt;                adult_ovary                    bladder 
+#&gt;                        341                        376 
+#&gt;                      brain                     breast 
+#&gt;                        634                       1151 
+#&gt;              bronchus_lung                      colon 
+#&gt;                        930                        411 
+#&gt;         connective_tissues                  esophagus 
+#&gt;                        113                        167 
+#&gt;                     kidney                     larynx 
+#&gt;                        863                        111 
+#&gt;                      liver                lymph_nodes 
+#&gt;                        434                         27 
+#&gt;                mediastinum                      mouth 
+#&gt;                         37                        258 
+#&gt;                   pancreas peritoneum_retroperitoneum 
+#&gt;                        151                        111 
+#&gt;                    pharynx                     pleura 
+#&gt;                         93                         80 
+#&gt;                   prostate                rectum_anus 
+#&gt;                        512                        137 
+#&gt;                       skin                    stomach 
+#&gt;                         91                        391 
+#&gt;                     testis                     thymus 
+#&gt;                        133                         78 
+#&gt;              thyroid_gland                     tonsil 
+#&gt;                        535                         34 
+#&gt;                     uterus 
+#&gt;                        608 
+#&gt; 
+#&gt; $t
+#&gt; x
+#&gt;   T0   T1  T1a  T1b  T1c   T2  T2a  T2b  T2c   T3  T3a  T3b  T3c   T4  T4a 
+#&gt;    3  587  288  345  212 1666  216  147  156 1340  418  274    3  212  292 
+#&gt;  T4b  T4c  T4d  T4e  Tis   TX &lt;NA&gt; 
+#&gt;  137    2    5    1    1   48 2757 
+#&gt; 
+#&gt; $n
+#&gt; x
+#&gt;        N0   N0 (i-)   N0 (i+) N0 (mol+)        N1       N1a       N1b 
+#&gt;      3068       150        28         1       963       263       123 
+#&gt;       N1c      N1mi        N2       N2a       N2b       N2c        N3 
+#&gt;         4        33       410        81       120        40        88 
+#&gt;       N3a       N3b       N3c        NX      &lt;NA&gt; 
+#&gt;        85         9         1       835      2808 
+#&gt; 
+#&gt; $m
+#&gt; x
+#&gt; cM0 (i+)       M0       M1      M1a      M1b      M1c       MX     &lt;NA&gt; 
+#&gt;        6     4039      233       20       13        1     1267     3531 
+#&gt; 
+#&gt; $tnm_stage
+#&gt; x
+#&gt;        I I/II NOS       IA       IB       II      IIA      IIB      IIC 
+#&gt;     1070        1      315      301      530      706      603       49 
+#&gt;      III     IIIA     IIIB     IIIC       IS       IV      IVA      IVB 
+#&gt;      582      440      215      175       46      388      304       15 
+#&gt;      IVC        X     &lt;NA&gt; 
+#&gt;        6       11     3353 
+#&gt; 
+#&gt; $tnm_grade
+#&gt; x
+#&gt;         G1         G2         G3         G4         GB         GX 
+#&gt;        250       1222       1494         79          2         29 
+#&gt; High Grade  Low Grade       &lt;NA&gt; 
+#&gt;        348         21       5665</code></pre>
 <p>Nous voyons pas mal de valeurs manquantes sur pas mal de variables ici : cependant, nous n’avons aucune valeur manquante sur la localisation du gène (tissue), son état (tumoral ou normal), le programme suivi par le patient ainsi que son sexe, ces informations vont être intéressantes dans la construction du modèle.</p>
 <p>Il y a à peu près autant que d’hommes que de femmes dans notre étude et la grande majorité des tissus présentent une tumeur.</p>
 </div>
@@ -432,7 +572,7 @@ div.tocify {
 #&gt; ND2      0.863267479  0.936656428
 #&gt; ND3      1.000000000  0.847908021
 #&gt; ND4      0.847908021  1.000000000</code></pre>
-<p>Nous avons donc les exprssions des gènes ND2, ND3 et Nd4 qui sont positivement très corrélées (corrélation &gt; 0.84 à chaque fois)</p>
+<p>Nous avons donc les exprssions des gènes ND2, ND3 et ND4 qui sont positivement très corrélées (corrélation &gt; 0.84 à chaque fois)</p>
 <p>Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 et BRAF (&gt; 0.66) et celle entre MP3K2 et KRAS (&gt; 0.58)</p>
 </div>
 </div>
