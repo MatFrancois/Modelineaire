@@ -11,7 +11,7 @@
 
 <meta name="author" content="Florent Chuffart &amp; Magali Richard" />
 
-<meta name="date" content="2019-04-13" />
+<meta name="date" content="2019-04-16" />
 
 <title>Gene Expression Prediction Challenge (expred)</title>
 
@@ -223,7 +223,7 @@ div.tocify {
 <h1 class="title toc-ignore">Gene Expression Prediction Challenge (expred)</h1>
 <h3 class="subtitle"><em>Starting kit</em></h3>
 <h4 class="author"><em>Florent Chuffart &amp; Magali Richard</em></h4>
-<h4 class="date"><em>2019-04-13</em></h4>
+<h4 class="date"><em>2019-04-16</em></h4>
 
 </div>
 
@@ -327,15 +327,77 @@ gs = colnames(d)[11:31]
 
 ### PUT YOUR SCRIPT HERE
 # Example 1
-pred = as.matrix(d[,gs])
-pred[] = sample(na.omit(pred), nrow(pred)*ncol(pred), replace=TRUE)
+# pred = as.matrix(d[,gs])
+# pred[] = sample(na.omit(pred), nrow(pred)*ncol(pred), replace=TRUE)
 
 # # Example 2
-# pred = sapply(gs, function(g, d){
-#  m = lm(d[[g]] ~ d$tissue)
-# #  m = lm(d[[g]] ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
-#  predict(m, d)
-# }, d)
+pred = sapply(gs, function(g, d){
+ m = lm(d[[g]] ~ d$tissue)
+ m = lm(d[[g]] ~ d$age+d$sex+d$tissue+d$tissue_status+d$project)
+ predict(m, d)
+}, d)
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
+
+#&gt; Warning in predict.lm(m, d): prediction from a rank-deficient fit may be
+#&gt; misleading
 
 ### DO NOT CHANGE THIS PART, it needs *pred* variable
 pred[!is.na(as.matrix(d[,gs]))] = NA # Sparse, only submit NA values!
@@ -344,11 +406,11 @@ zip_filename = paste(sep=&quot;&quot;,  &quot;results_&quot;, format(Sys.time(),
 zip(zip_filename, &quot;results.rds&quot;)
 #&gt; Warning in system2(zip, args, invisible = TRUE): '&quot;zip&quot;' not found
 print(zip_filename)
-#&gt; [1] &quot;results_04_13_2019_1555161930.zip&quot;</code></pre>
+#&gt; [1] &quot;results_04_16_2019_1555425009.zip&quot;</code></pre>
 </div>
 <div id="submit-zip-file" class="section level2">
 <h2>Submit zip file</h2>
-<p>It generates <em>results_04_13_2019_1555161930.zip</em> submission file.</p>
+<p>It generates <em>results_04_16_2019_1555425009.zip</em> submission file.</p>
 <p>Submit the zip submission file in the <code>Participate</code> tab of the codalab challenge by clicking the <code>Submit</code> button.</p>
 <p>The metric used to evaluate prediction is the mean squared error (MSE) coded with the provided <code>scoring_function()</code>.</p>
 <p>On the codalab challenge web page, The <em>STATUS</em> become :</p>
