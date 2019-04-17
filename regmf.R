@@ -181,7 +181,7 @@ gqtest(pred21) #p-value = 0.2
 hist(pred21$residuals)  
 
 ##prediction
-res.pred<-cbind(predict(pred1),predict(pred2),predict(pred3),predict(pred4)
+res.predM<-cbind(predict(pred1),predict(pred2),predict(pred3),predict(pred4)
                 ,predict(pred5),predict(pred6),predict(pred7)
                 ,predict(pred8),predict(pred9),predict(pred10),predict(pred11)
                 ,predict(pred12),predict(pred13),predict(pred14),predict(pred15)
@@ -189,10 +189,10 @@ res.pred<-cbind(predict(pred1),predict(pred2),predict(pred3),predict(pred4)
                 ,predict(pred20),predict(pred21))
 
 ##rendu
-colnames(res.pred)<-colnames(don)[6:26]
+colnames(res.predM)<-colnames(don)[6:26]
 gs<-colnames(don)[6:26]
-res.pred[!is.na(as.matrix(don[,gs]))] = NA # Sparse, only submit NA values!
-saveRDS(res.pred, "results.rds")
+res.predM[!is.na(as.matrix(don[,gs]))] = NA # Sparse, only submit NA values!
+saveRDS(res.predM, "results.rds")
 zip_filename = paste(sep="",  "results_", format(Sys.time(), format="%m_%d_%Y_%s"), ".zip")
 zip(zip_filename, "results.rds")
 print(zip_filename)
@@ -209,7 +209,8 @@ mod2<-c(summary(pred1)$r.squared,summary(pred2)$r.squared,summary(pred3)$r.squar
 
 df.r2<-(rbind(r2,mod2))
 colnames(df.r2)<-gs
-df.r2<-data.frame(t(df.r2))
+gene<-gs
+df.r2<-data.frame(t(df.r2),gene)
 save(df.r2,file = "evor2.RData")
 plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
 text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))

@@ -1,6 +1,5 @@
 ---
 title: "Gene Expression Prediction Challenge (expred)"
-subtitle: "Starting kit"
 author: "Azat Aleksanyan, Lucas Chabeau, Matthieu Frabçois, Etienne Hamard"
 date: "`r Sys.Date()`"
 output: 
@@ -30,13 +29,13 @@ don <- readRDS("data.rds")
 <!-- Rapport -->
 ##Présentation des données
 
-Afin d'être familiarisé avec les données il nous a fallut au préalable comprendre nos données principales, nous avons 21 gènes impliqués dans 7 processus biologiques différents :
+Afin d'être familiarisés avec les données il nous a fallut au préalable comprendre nos données principales. Nous avons 21 gènes impliqués dans 7 processus biologiques différents :
 
-Le gène ATAD2 qui encode une enzyme qui transforme les macro protéines, et le gène SYCP3 qui encode une enzyme du complexe synaptonémal formé entre les chromosomes homologues. Ces deux enzymes constituent en parti les chromatines, structure au sein de laquelle l'ADN se trouve empaqueté et compacté dans le volume limité du noyau des cellules eucaryotes.
-Les gènes H19, IGF2, NNAT, BLCAP qui encodent des enzymes impliquées dans la régulation de la et le développement du corps et du cerveau font partie de la famille des gènes soumis à empreinte, c’est à dire que la copie héritée de la mère et la copie héritée du père ne sont pas exprimées de la même manière.
-Les gènes BRD4, BRDT, NUTM1 encodent des protéines qui associes les chromosomes durant la mitose.
+Le gène ATAD2 qui encode une enzyme qui transforme les macro protéines, et le gène SYCP3 qui encode une enzyme du complexe synaptonémal formé entre les chromosomes homologues. Ces deux enzymes constituent en partie les chromatines, structure au sein de laquelle l'ADN se trouve empaquetée et compactée dans le volume limité du noyau des cellules eucaryotes.
+Les gènes H19, IGF2, NNAT, BLCAP qui encodent des enzymes impliquées dans la régulation de la ??????????????????la régul de quoi du coup??????????????????????????????????? et le développement du corps et du cerveau font partie de la famille des gènes soumis à empreinte, c’est à dire que la copie héritée de la mère et la copie héritée du père ne sont pas exprimées de la même manière.
+Les gènes BRD4, BRDT, NUTM1 encodent des protéines qui associent les chromosomes durant la mitose.
 Les gènes TUBA3C, MAGEB6 jouent un rôle important dans la spermatogénèse. 
-Les gènes SMYD3, MAP3K2, KDR encodent des enzymes faisant parties de la famille des méthyltransférases, un groupe d'enzymes qui transfèrent un groupe méthyle d'un donneur à un accepteur.
+Les gènes SMYD3, MAP3K2, KDR encodent des enzymes faisant partie de la famille des méthyltransférases, un groupe d'enzymes qui transfèrent un groupe méthyle d'un donneur à un accepteur.
 Les gènes KRAS, BRAF encodent des enzymes oncogènes et le gène TP53 est impliqué dans la régulation du cycle cellulaire. 
 Les gènes FASTKD1, ND2, ND3, ND4 encodent des enzymes responsables  de l’activité mitochondriale.
 
@@ -115,55 +114,82 @@ Nous devons aussi noter la corrélation entre les expressions des gènes MP3K2 e
 
 ### Méthodes utilisées pour notre modélisation
 
-Dans un premier temps nous avons utilisé le modèle mis à disposition dans l’énoncé qui permettait de prédire chaque gêne en fonction de l'age et le sexe du candidat, le tissue cancérigène, son statut, et le projet d'étude associé. 
-Afin d'améliorer ces 21 modèles similaires, nous avons décidé d'ajouter un "step()" dans le code. Cela permettant d’affiner chaque régression linéaire, en supprimant les variables qui n'ont pas d'impact sur la valeur du gêne choisit. 
+Dans un premier temps nous avons utilisé le modèle mis à disposition dans l’énoncé qui permettait de prédire chaque gène en fonction de l'âge et du sexe du candidat, le tissu cancérigène, son statut, et le projet d'étude associé. 
+Afin d'améliorer ces 21 modèles similaires (21 expressions de gènes à modéliser), nous avons décidé d'ajouter un "step()" dans le code. Cela permettant d’affiner chaque régression linéaire, en supprimant les variables qui n'ont pas d'impact sur la valeur du gène choisit. Pour être plus précis, nous avons utilisé la méthode "backward"" pour séléctionner notre modèle".
 
-Dans un second temps, pour aller plus loin dans la prédiction, nous nous sommes dit que ce qui pouvait expliquer la valeur d'expression d'un gêne pouvait être la valeur d'expression des gênes de la même famille ou même des gênes en général. Nous avons donc cherché à inclure la valeur d'expression des gênes de notre base de données pour prédire ceux ci. Il a fallut donc procéder en deux étapes, la première étant d'imputer les valeurs manquantes une première fois pour avoir un jeu de données complet. La seconde étant de réaliser un nouveau modèle en exprimant chaque gène à nouveau avec les variables précédemment utilisées mais en y ajoutant les gênes restant (puis d'affiner le modèle comme précédemment). 
-Pour la première étape nous avons décidé d'imputer les valeurs manquantes de chaque gênes par les valeurs prédites lors du deuxième modèle fait précédemment. Etant données le faible taux d'erreur obtenu (observé sur codalab) cette imputation semblait judicieuse. Ensuite il n'a suffit que d'appliquer la méthode classique de régression linéaire multiple.
+Dans un second temps, pour aller plus loin dans la prédiction, nous nous sommes dit que ce qui pouvait expliquer la valeur d'expression d'un gène pouvait être la valeur d'expression des gènes de la même famille ou même des gènes en général. Nous avons donc cherché à inclure la valeur d'expression des gènes de notre jeu de données pour prédire ceux ci. Il a fallut donc procéder en deux étapes, la première étant d'imputer les valeurs manquantes une première fois pour avoir un jeu de données complet. La seconde étant de réaliser un nouveau modèle en exprimant chaque gène à nouveau avec les variables précédemment utilisées mais en y ajoutant les gènes restants (puis d'affiner le modèle comme précédemment). 
+Pour la première étape nous avons décidé d'imputer les valeurs manquantes de chaque gène par les valeurs prédites lors du deuxième modèle fait précédemment. Etant données le faible taux d'erreur obtenu (observé sur codalab) cette imputation semblait judicieuse. Ensuite il n'a suffit que d'appliquer la méthode classique de régression linéaire multiple.
 
-Le tableau suivant résume pour chaque gêne quel paramêtre est utilisé (marqué par une croix) :
+Le tableau suivant résume pour chaque gène quel paramètre est utilisé dans la modélisation (marqué par une croix) :
 
 ```{r results='matrice param',warning=FALSE}
 load(file = "../matrice.RData")
 require(knitr)
 kable(param.mat)
 ```
-On peut voir que la variable concernant le projet dans lequel est l’individu est dans chaque modèle, le tissue concerné aussi.
+
+Vous expliquer modèle par modèle quel influence a chaque variable sur la avriable expliquée serait bien entendu trop long, nous pouvons tout de même noter que la variable concernant le projet dans lequel est l’individu est dans chaque modèle, pareil pour le tissu concerné.
+
+Le modèle précédant a tout de même pour limite de contenir des variables explicatives corréllées entre elles. Nous avons donc recommencé un nouveau modèle avec la méthode suivante :
+
+- La méthode d'imputation des valeurs manquantes chez l'expression des gènes est restée la même à une différence près : pour les gènes NDK2, NDK3, NDK4 nous avons imputé par une régression linéaire entre eux (NDK2~NDK4; NDK3~NDK2; NDK4~NDK2), en effet ces variables sont très coréllées, ça nous a donc semblé sensé d'utiliser cette méthode.
+
+- Nous avons ensuite à nouveau fait une modélisation linéaire multiple pour chaque gène. Nous sommes partis du modèle complet en ne gardant qu'une seule des variables explicatives corrélées entre elle, nous gardons à chaque fois la plus corréllé à la variable à expliquer. A partir de ce modèle "complet", méthode backward pour séléctionner le modèle.
+
+Revoici donc le tableau des variables explicatives pour chaque modèle avec cette méthode.
+
+```{r results='matrice param Lucs',warning=FALSE}
+load(file = "../matriceLuc.RData")
+require(knitr)
+kable(param.matLuc)
+```
+
+Cette fois ci, il ne reste plus que la variable "Project" qui est utilisée dans chaque modèle.
+
 
 ## B : Autocritique sur l'évolution de notre score
 
 -- partie sur les Shapiro test / gqtest --
+Avant de parler de score, nous voulons parler de validité de nos modèles. En sivant nos deux dernières méthodes expliquées, nous obtenons des modèles qui ont presque tous les mêmes "caractéristiques" en terme de non-validité de modèle.
 
-On peut voir ici l'évolution de notre R² en fonction de nos 2 modèles principaux, en bleu le premier modèle réalisé, en rouge le second :
+En effet, nous rejetons l'hypothèse de normalité des résidus de presque tous nos modèles avec le test de Shapiro. Par contre les histogrammes des résidus ont bien une forme semblable à une distribution, qui à défaut d'être normale est bien centrée.
+Notons aussi que nous ne rejetons presque jamais l'homoscédasticité de nos résidus.
+
+On peut voir ici l'évolution de notre R² en fonction de nos 3 modèles principaux, en bleu le premier modèle réalisé, en rouge le second, en vert le dernier (sans variariables explicatives corréllées) :
 
 ```{r include=TRUE}
 load("../evor2.RData")
+load("../evor2Lucs.RData")
 plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
 text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))
 points(sort(df.r2$mod2),col="red",pch=16,cex=sort(df.r2$mod2))
 text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(df.r2$mod2),adj = c(0.5,-1))
+#En vert mon modèle
+points(sort(df.r2Lucs$mod2),col="green",pch=16,cex=sort(df.r2Lucs$mod2))
+text(sort(df.r2Lucs$mod2),labels = df.r2Lucs$gene[order(df.r2Lucs$mod2)],col="green",cex=sort(df.r2Lucs$mod2),adj = c(0.5,-1))
 
 ```
 
-le modèle final est donc bien plus efficace pour ce qui est de la prédiction de la valeur d'expression de chaque gêne.
-Ce qui est logique, car le nombre de paramêtres dans la deuxième version du modèle est bien plus importante.
-L'observation de l'évolution du R² nous permet de voir l'efficacité des modèles en général, en effet on peut voir que le pourcentage de variance expliqué par le modèle concernant les gênes ND2 à ND4 est bien plus important que les gênes TUBA3C ou MAGEB6. Mais surtout que la progression de ce pourcentage a été incomparable aux autres pour les gênes ND2 à ND4. Cela peut s'expliquer par la corrélation importante entre ces trois variables. En effet, selon la littérature scientifique ces 3 gênes on des fonctions moléculaire similaire en plus de faire partie du même processus biologique (la mitochondrie).
+Les modèles réalisés avec les deux dernières méthodes sont bien plus efficaces pour ce qui est de la prédiction de la valeur d'expression de chaque gène.
+Ce qui est logique, car le nombre de paramètres est bien plus importante.
+
+L'observation de l'évolution du R² nous permet de voir l'efficacité des modèles en général, nous pouvons voir que le pourcentage de variance expliqué par le modèle concernant les gènes ND2 à ND4 est bien plus important que les gènes TUBA3C ou MAGEB6. Mais surtout que la progression de ce pourcentage a été incomparable aux autres pour les gènes ND2 à ND4. Cela peut s'expliquer par la corrélation importante entre ces trois variables. En effet, selon la littérature scientifique ces 3 gènes on des fonctions moléculaire similaire en plus de faire partie du même processus biologique (la mitochondrie).
 Toutefois on peut surtout voir que plusieurs modèles garde un R² relativement faible (<0.5), pour le taux d'erreur n'est pas si élevé lors des résultats, il se peut donc qu'il n'y est pas besoin d'un modèle particulièrement puissant pour ces gènes.
 
-De plus, le premier modèle nous permettait d'avoir un score sur codalab de 1.54, qui était le score médian des participants. Alors que le second modèle nous permet d'atteindre un score de 1.23, qui est le meilleur score obtenu des participants.
+De plus, le premier modèle nous permettait d'avoir un score sur codalab de 1.54, qui était le score médian des participants. Alors que le second et le troisième modèle nous permettent d'atteindre un score de 1.23, qui est bien classé dans la compétition.
 
 ## C : Interprétation de nos résultats
 
-Globalement, on peut voir que chaque gène contient dans son modèle de prédiction au moins un autre gènes d'une famille différente, en conséquent on peut déduire la valeur d'expression d'un gênes en fonction d'un autre (en partie) mais aussi de l'age, le sexe, le fait que le tissue soit tumoral ou non etc...
-La réalisation du modèle et des statistiques descriptive aura permis aussi de voir que seul les gênes concernant l'activité mitchondrique on un lien fort entre eux, c'est le cas aussi pour les autres mais dans une moindre mesure.
+Globalement, on peut voir que chaque gène contient dans son modèle de prédiction au moins un autre gènes d'une famille différente, en conséquent on peut déduire la valeur d'expression d'un gène en fonction d'un autre (en partie) mais aussi de l'age, le sexe, le fait que le tissue soit tumoral ou non etc...
+La réalisation du modèle et des statistiques descriptive aura permis aussi de voir que seul les gènes concernant l'activité mitchondrique on un lien fort entre eux, c'est le cas aussi pour les autres mais dans une moindre mesure.
 
-En résumant le tableau précédent concernant les paramêtres de chaque modèles, on voit que les gênes les moins utilisés dans les modèles sont les gênes SYCP3, H19, NUTM1, TP53, des gênes qui n'ont pourtant pas les mêmes fonctions. D'un point de vu général, les autres semblent avoir la même importance. Seule la variable concernant le projet est constamment utile pour la prédiction de la valeur d'expression d'un gêne.
+En résumant les tableau précédents concernants les paramètres de chaque modèle, on voit que les gènes les moins utilisés dans les modèles sont les gènes SYCP3, H19, NUTM1, TP53, des gènes qui n'ont pourtant pas les mêmes fonctions. D'un point de vu général, les autres semblent avoir la même importance. Seule la variable concernant le projet est constamment utilisée pour la prédiction de la valeur d'expression d'un gène.
 
 ```{r results='sumparam'}
 summary(data.frame(param.mat))
 ```
 
-Enfin, pour aller plus loin, il pourrait être intéressant d'ajouter des variables au jeu de données, en effet, en regardant le taux d'erreur sur certains gênes dans les résultats de tous les participants, on peut voir que celui ci est très élevé. En conséquent, malgré les multiples modèles différents de chacun, il manque obligatoirement des informations (notamment pour les gênes H19 et IGF2, qui ont un taux d'erreur de plus de 4). De plus afin d'améliorer le score global nous aurions pu alterner nos prédictions et nos imputation des Nas, ce qui aurait finalement pu converger vers une valeur plus précise.
+Pour aller plus loin, il pourrait être intéressant d'ajouter des variables au jeu de données, en effet, en regardant le taux d'erreur sur certains gènes dans les résultats de tous les participants, on peut voir que celui ci est très élevé. En conséquent, malgré les multiples modèles différents de chacun, il manque obligatoirement des informations (notamment pour les gènes H19 et IGF2, qui ont un taux d'erreur de plus de 4). De plus afin d'améliorer le score global nous aurions pu alterner nos prédictions et nos imputation des Nas, ce qui aurait finalement pu converger vers une valeur plus précise.
 
 
 
