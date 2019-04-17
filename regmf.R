@@ -50,15 +50,7 @@ pred <- sapply(gs, function(g, don.imput){
 }, don.imput)
 
 summary(pred)
-r2<-NULL
-for (i in gs){
-  m<-lm(don.imput[[i]] ~ don.imput$age+
-          don.imput$sex+
-          don.imput$tissue+
-          don.imput$tissue_status+
-          don.imput$project)
-  r2<-c(r2,summary(m)$r.squared)
-}
+
 ##imputation des na par la valeur prédite
 for (i in 1:length(gs)){
   don.imput[is.na(don.imput[,gs[i]]),gs[i]]<-pred[is.na(don.imput[,gs[i]]),gs[i]]
@@ -199,6 +191,17 @@ print(zip_filename)
 
 #####
 #####evolution R2
+
+##r2 de mod 1
+r2<-NULL
+for (i in gs){
+  m<-lm(don.imput[[i]] ~ don.imput$age+
+          don.imput$sex+
+          don.imput$tissue+
+          don.imput$tissue_status+
+          don.imput$project)
+  r2<-c(r2,summary(m)$r.squared)
+}
 
 mod2<-c(summary(pred1)$r.squared,summary(pred2)$r.squared,summary(pred3)$r.squared,summary(pred4)$r.squared
       ,summary(pred5)$r.squared,summary(pred6)$r.squared,summary(pred7)$r.squared

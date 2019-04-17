@@ -16,9 +16,10 @@ knitr::opts_chunk$set(collapse=TRUE, comment = "#>", fig.width=9, fig.height=6, 
 ```
 
 <!-- Packages utilisés -->
-```{r, warning=FALSE}
+```{r, warning=FALSE,include=FALSE}
 require(ggplot2)
 require(corrplot)
+require(knitr)
 ```
 
 <!-- Importation des données -->
@@ -32,7 +33,7 @@ don <- readRDS("data.rds")
 Afin d'être familiarisés avec les données il nous a fallut au préalable comprendre nos données principales. Nous avons 21 gènes impliqués dans 7 processus biologiques différents :
 
 Le gène ATAD2 qui encode une enzyme qui transforme les macro protéines, et le gène SYCP3 qui encode une enzyme du complexe synaptonémal formé entre les chromosomes homologues. Ces deux enzymes constituent en partie les chromatines, structure au sein de laquelle l'ADN se trouve empaquetée et compactée dans le volume limité du noyau des cellules eucaryotes.
-Les gènes H19, IGF2, NNAT, BLCAP qui encodent des enzymes impliquées dans la régulation de la ??????????????????la régul de quoi du coup??????????????????????????????????? et le développement du corps et du cerveau font partie de la famille des gènes soumis à empreinte, c’est à dire que la copie héritée de la mère et la copie héritée du père ne sont pas exprimées de la même manière.
+Les gènes H19, IGF2, NNAT, BLCAP qui encodent des enzymes impliquées dans la régulation de la masse corporelle et le développement du corps et du cerveau font partie de la famille des gènes soumis à empreinte, c’est à dire que la copie héritée de la mère et la copie héritée du père ne sont pas exprimées de la même manière.
 Les gènes BRD4, BRDT, NUTM1 encodent des protéines qui associent les chromosomes durant la mitose.
 Les gènes TUBA3C, MAGEB6 jouent un rôle important dans la spermatogénèse. 
 Les gènes SMYD3, MAP3K2, KDR encodent des enzymes faisant partie de la famille des méthyltransférases, un groupe d'enzymes qui transfèrent un groupe méthyle d'un donneur à un accepteur.
@@ -124,7 +125,6 @@ Le tableau suivant résume pour chaque gène quel paramètre est utilisé dans l
 
 ```{r results='matrice param',warning=FALSE}
 load(file = "../matrice.RData")
-require(knitr)
 kable(param.mat)
 ```
 
@@ -140,7 +140,6 @@ Revoici donc le tableau des variables explicatives pour chaque modèle avec cett
 
 ```{r results='matrice param Lucs',warning=FALSE}
 load(file = "../matriceLuc.RData")
-require(knitr)
 kable(param.matLuc)
 ```
 
