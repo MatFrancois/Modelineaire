@@ -1,6 +1,6 @@
 ---
 title: "Gene Expression Prediction Challenge (expred)"
-author: "Azat Aleksanyan, Lucas Chabeau, Matthieu Frabçois, Etienne Hamard"
+author: "Azat Aleksanyan, Lucas Chabeau, Matthieu François, Etienne Hamard"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:
@@ -132,7 +132,7 @@ Vous expliquer modèle par modèle quel influence a chaque variable sur la avria
 
 Le modèle précédant a tout de même pour limite de contenir des variables explicatives corréllées entre elles. Nous avons donc recommencé un nouveau modèle avec la méthode suivante :
 
-- La méthode d'imputation des valeurs manquantes chez l'expression des gènes est restée la même à une différence près : pour les gènes NDK2, NDK3, NDK4 nous avons imputé par une régression linéaire entre eux (NDK2~NDK4; NDK3~NDK2; NDK4~NDK2), en effet ces variables sont très coréllées, ça nous a donc semblé sensé d'utiliser cette méthode.
+- La méthode d'imputation des valeurs manquantes chez l'expression des gènes est restée la même à une différence près : pour les gènes ND2, ND3, ND4 nous avons imputé par une régression linéaire entre eux (ND2~ND4; ND3~ND2; ND4~ND2), en effet ces variables sont très coréllées, ça nous a donc semblé sensé d'utiliser cette méthode.
 
 - Nous avons ensuite à nouveau fait une modélisation linéaire multiple pour chaque gène. Nous sommes partis du modèle complet en ne gardant qu'une seule des variables explicatives corrélées entre elle, nous gardons à chaque fois la plus corréllé à la variable à expliquer. A partir de ce modèle "complet", méthode backward pour séléctionner le modèle.
 
@@ -159,7 +159,7 @@ On peut voir ici l'évolution de notre R² en fonction de nos 3 modèles princip
 ```{r include=TRUE}
 load("../evor2.RData")
 load("../evor2Lucs.RData")
-plot(df.r2$r2[order(df.r2$mod2)],col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
+plot(df.r2$r2[order(df.r2$mod2)],main = "Evolution du R² selon le modèle",col="blue",ylim = c(min(c(df.r2$r2,df.r2$mod2)),max(c(df.r2$r2,df.r2$mod2))+0.2),pch=16,cex=df.r2$r2[order(df.r2$mod2)],ylab="R²")
 text(df.r2$r2[order(df.r2$mod2)],labels = df.r2$gene[order(df.r2$mod2)],col="blue",cex=df.r2$r2[order(df.r2$mod2)],adj = c(0.5,-1))
 points(sort(df.r2$mod2),col="red",pch=16,cex=sort(df.r2$mod2))
 text(sort(df.r2$mod2),labels = df.r2$gene[order(df.r2$mod2)],col="red",cex=sort(df.r2$mod2),adj = c(0.5,-1))
@@ -182,10 +182,15 @@ De plus, le premier modèle nous permettait d'avoir un score sur codalab de 1.54
 Globalement, on peut voir que chaque gène contient dans son modèle de prédiction au moins un autre gènes d'une famille différente, en conséquent on peut déduire la valeur d'expression d'un gène en fonction d'un autre (en partie) mais aussi de l'age, le sexe, le fait que le tissue soit tumoral ou non etc...
 La réalisation du modèle et des statistiques descriptive aura permis aussi de voir que seul les gènes concernant l'activité mitchondrique on un lien fort entre eux, c'est le cas aussi pour les autres mais dans une moindre mesure.
 
-En résumant les tableau précédents concernants les paramètres de chaque modèle, on voit que les gènes les moins utilisés dans les modèles sont les gènes SYCP3, H19, NUTM1, TP53, des gènes qui n'ont pourtant pas les mêmes fonctions. D'un point de vu général, les autres semblent avoir la même importance. Seule la variable concernant le projet est constamment utilisée pour la prédiction de la valeur d'expression d'un gène.
+En résumant le tableau précédents concernants les paramètres de chaque modèle (pour le modele 2), on voit que les gènes les moins utilisés dans les modèles sont les gènes SYCP3, H19, NUTM1, TP53, des gènes qui n'ont pourtant pas les mêmes fonctions. D'un point de vu général, les autres semblent avoir la même importance. Seule la variable concernant le projet est constamment utilisée pour la prédiction de la valeur d'expression d'un gène.
 
 ```{r results='sumparam'}
-summary(data.frame(param.mat))
+kable(summary(data.frame(param.mat)))
+```
+
+Alors que lorsqu'on regarde la repartition des paramêtre dans le dernier modèle, on peut voir qu'il y a bien moins de paramêtres qui rentrent en compte. Notamment pour ND3, ND4 et MP3K2. Pourtant le score obtenu sur Codalab est le même, ce dernier modèle est donc plus précis, le second risquait d'être en surapprentissage sans vraiment avoir de moyen de le vérifier.
+```{r results='sumparam2'}
+kable(summary(data.frame(param.matLuc)))
 ```
 
 Pour aller plus loin, il pourrait être intéressant d'ajouter des variables au jeu de données, en effet, en regardant le taux d'erreur sur certains gènes dans les résultats de tous les participants, on peut voir que celui ci est très élevé. En conséquent, malgré les multiples modèles différents de chacun, il manque obligatoirement des informations (notamment pour les gènes H19 et IGF2, qui ont un taux d'erreur de plus de 4). De plus afin d'améliorer le score global nous aurions pu alterner nos prédictions et nos imputation des Nas, ce qui aurait finalement pu converger vers une valeur plus précise.
